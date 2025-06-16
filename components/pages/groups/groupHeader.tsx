@@ -23,8 +23,7 @@ const GroupHeader: React.FC<GroupHeaderProps> = ({
   groupId = 'default-group',
   activeTab = 'dashboard',
 }) => {
-  const safeTotalXP = totalXP === 0 ? 1 : totalXP;
-  const progressValue = (currentXP / safeTotalXP) * 100;
+  //   const safeTotalXP = totalXP === 0 ? 1 : totalXP;
 
   const tabs = [
     { label: 'Dashboard', value: 'dashboard' },

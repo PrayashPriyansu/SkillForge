@@ -7,7 +7,7 @@ import { AppSidebar } from '@/components/global/app-sidebar';
 import { GlobalStoreProvider } from '@/components/providers/store-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-type Props = PropsWithChildren & {};
+type Props = PropsWithChildren & object;
 function layout({ children }: Props) {
   return (
     <div className="relative flex h-full w-full flex-col">

@@ -10,11 +10,9 @@ import { Doc } from '@/convex/_generated/dataModel';
 
 type Props = {
   group: Doc<'group'>;
-
-  toggleModal?: () => void;
 };
 
-function GroupCards({ group, toggleModal }: Props) {
+function GroupCards({ group }: Props) {
   return (
     <Card className="col-span-12 h-[180px] p-4 shadow-md transition-all hover:shadow-lg md:col-span-6">
       <CardTitle className="mb-2 flex items-center text-xl font-semibold">

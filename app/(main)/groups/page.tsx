@@ -7,8 +7,8 @@ import CreateGroupForm from '@/components/pages/create-group/create-group-form';
 import GroupCards from '@/components/pages/groups/group-cards';
 import { api } from '@/convex/_generated/api';
 
-type Props = {};
-function page({}: Props) {
+type Props = object;
+function Page({}: Props) {
   const groups = useQuery(api.group.getGroups);
 
   return (
@@ -22,4 +22,4 @@ function page({}: Props) {
     </>
   );
 }
-export default page;
+export default Page;

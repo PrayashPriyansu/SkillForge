@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { useAuthActions } from '@convex-dev/auth/react';
-import { BookOpen, Home, Users } from 'lucide-react';
+import { Home, Users } from 'lucide-react';
 
 import {
   Sidebar,
@@ -34,15 +34,6 @@ const topItems = [
     title: 'Groups',
     url: '/groups',
     icon: Users,
-  },
-];
-
-// Optional: Mentor-only links
-const mentorItems = [
-  {
-    title: 'Plans',
-    url: '/plans',
-    icon: BookOpen,
   },
 ];
 

@@ -1,4 +1,4 @@
-type Props = {};
+type Props = object;
 function Loader({}: Props) {
   return (
     // Use min-h-screen instead of h-full to guarantee it takes full viewport height

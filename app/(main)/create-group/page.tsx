@@ -1,6 +1,6 @@
 import CreateGroupForm from '@/components/pages/create-group/create-group-form';
 
-function page() {
+function Page() {
   return <CreateGroupForm />;
 }
-export default page;
+export default Page;

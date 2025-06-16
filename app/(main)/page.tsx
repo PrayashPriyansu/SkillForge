@@ -1,5 +1,5 @@
-type Props = {};
-function page({}: Props) {
+type Props = object;
+function Page({}: Props) {
   return <div>page</div>;
 }
-export default page;
+export default Page;

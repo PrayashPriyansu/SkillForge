@@ -1,14 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useAuthActions } from '@convex-dev/auth/react';
 
 import { Button } from '@/components/ui/button';
 
 export function LoginForm() {
   const { signIn } = useAuthActions();
-  const router = useRouter();
   return (
     <div className="border-border bg-background mx-auto flex w-full max-w-sm flex-col items-center gap-6 rounded-xl border p-8 shadow-md">
       <div className="space-y-2 text-center">
