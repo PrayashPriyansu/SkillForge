@@ -2,16 +2,24 @@
 
 import { PropsWithChildren } from 'react';
 
-import Navbar from '@/components/global/nav-bar';
+import { UserSync } from '@/components/auth/user-sync';
+import { AppSidebar } from '@/components/global/app-sidebar';
+import { GlobalStoreProvider } from '@/components/providers/store-provider';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 type Props = PropsWithChildren & {};
 function layout({ children }: Props) {
   return (
-    <div className="flex h-full w-full flex-col">
-      <Navbar />
-      <main className="flex-grow bg-[url('/dark-bg.svg')] bg-cover bg-fixed bg-center bg-no-repeat">
-        {children}
-      </main>
+    <div className="relative flex h-full w-full flex-col">
+      <GlobalStoreProvider>
+        <UserSync />
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="flex max-h-dvh flex-grow flex-col overflow-y-auto">
+            {children}
+          </main>
+        </SidebarProvider>
+      </GlobalStoreProvider>
     </div>
   );
 }
