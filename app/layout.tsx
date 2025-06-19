@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
 
 import ConvexClientProvider from '@/components/providers/convex-provider';
+import { GlobalStoreProvider } from '@/components/providers/store-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
 import './globals.css';
@@ -40,7 +41,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            <ConvexClientProvider>
+              <GlobalStoreProvider>{children}</GlobalStoreProvider>
+            </ConvexClientProvider>
           </ThemeProvider>
         </body>
       </html>

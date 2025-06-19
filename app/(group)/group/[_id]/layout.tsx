@@ -1,13 +1,12 @@
 import { PropsWithChildren } from 'react';
 
-import GroupHeader from '@/components/pages/groups/groupHeader';
+import GroupLayout from '@/components/pages/groups/group-layout';
 
 type Props = PropsWithChildren & {};
 function layout({ children }: Props) {
   return (
     <div className="flex min-h-dvh flex-col">
-      <GroupHeader />
-      <div>{children}</div>
+      <GroupLayout>{children}</GroupLayout>
     </div>
   );
 }

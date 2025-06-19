@@ -6,10 +6,12 @@ import { Doc, Id } from '@/convex/_generated/dataModel';
 
 export type GlobalState = {
   user: Doc<'users'>;
+  currGroup: Doc<'groups'>;
 };
 
 export type GlobalActions = {
   setUser: (user: Doc<'users'>) => void;
+  setGroup: (group: Doc<'groups'>) => void;
 };
 
 export type GlobalStore = GlobalState & GlobalActions;
@@ -18,6 +20,16 @@ export const defaultInitState: GlobalState = {
   user: {
     _id: '' as Id<'users'>,
     _creationTime: 0,
+  },
+  currGroup: {
+    _id: '' as Id<'groups'>,
+    _creationTime: 0,
+    name: '',
+    status: 'active',
+    description: '',
+    createdBy: '' as Id<'users'>,
+    progress: 0,
+    isComplete: false,
   },
 };
 
@@ -29,6 +41,8 @@ export const createGlobalStore = (
       (set) => ({
         ...initState,
         setUser: (user: Doc<'users'>) => set((state) => ({ ...state, user })),
+        setGroup: (group: Doc<'groups'>) =>
+          set((state) => ({ ...state, currGroup: group })),
       }),
       {
         name: 'global-store',

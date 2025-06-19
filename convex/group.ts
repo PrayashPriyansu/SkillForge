@@ -5,7 +5,28 @@ import { mutation, query } from './_generated/server';
 
 // Return the last 100 tasks in a given task list.
 export const getGroups = query({
-  args: {},
+  args: {
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const user_id = await getAuthUserId(ctx);
+
+    if (!user_id) {
+      throw new Error('User not authenticated');
+    }
+    if (args.limit === undefined) {
+      args.limit = 100;
+    }
+
+    const groups = await ctx.db.query('groups').order('desc').take(args.limit);
+    return groups;
+  },
+});
+
+export const getGroup = query({
+  args: {
+    _id: v.id('groups'),
+  },
   handler: async (ctx, args) => {
     const user_id = await getAuthUserId(ctx);
 
@@ -13,10 +34,11 @@ export const getGroups = query({
       throw new Error('User not authenticated');
     }
 
-    const groups = await ctx.db.query('group').order('desc').take(10);
-    // .take(100);
-    // .filter((q) => q.eq(q.field('taskListId'), args.taskListId))
-    return groups;
+    const group = await ctx.db
+      .query('groups')
+      .withIndex('by_id', (q) => q.eq('_id', args._id))
+      .collect();
+    return group;
   },
 });
 
@@ -33,14 +55,11 @@ export const createGroup = mutation({
       throw new Error('User not authenticated');
     }
 
-    const group = await ctx.db.insert('group', {
+    const group = await ctx.db.insert('groups', {
       name: args.name,
       description: args.description,
       createdBy: user_id,
-      menteeCount: 0,
-      mentorCount: 1,
-      averageProgress: 0,
-      totalXP: 0,
+      progress: 0,
       isComplete: false,
       status: 'active',
     });

@@ -1,11 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-import { useAuthActions } from '@convex-dev/auth/react';
-import { Home, Users } from 'lucide-react';
 
 import {
   Sidebar,
@@ -19,52 +15,39 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
-import { useGlobalStore } from '../providers/store-provider';
-import { Button } from '../ui/button';
-import { ModeToggle } from './toggle-dark-mode';
+type SidebarItem = {
+  title: string;
+  url: string;
+  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+};
 
-// Top menu items for all users
-const topItems = [
-  {
-    title: 'Dashboard',
-    url: '/',
-    icon: Home,
-  },
-  {
-    title: 'Groups',
-    url: '/groups',
-    icon: Users,
-  },
-];
+type Props = {
+  topItems: SidebarItem[];
+};
 
-// Bottom settings
-// const bottomItems = [
-//   {
-//     title: 'Settings',
-//     url: '/settings',
-//     icon: Settings,
-//   },
-// ];
-
-export function AppSidebar() {
+export function AppSidebar({ topItems }: Props) {
   const path = usePathname();
   const isActive = (route: string) => path === route;
-  const { signOut } = useAuthActions();
 
-  const image = useGlobalStore((state) => state.user.image);
-  const name = useGlobalStore((state) => state.user.name);
-  const email = useGlobalStore((state) => state.user.email);
+  // Add settings to the navigation items
 
   return (
-    <Sidebar className="bg-background h-dvh border-r shadow-sm">
-      <SidebarContent className="flex h-full flex-col justify-between px-4 py-6">
-        {/* Top Section: Branding + Menu */}
-        <div>
+    <Sidebar className="h-dvh border-r">
+      <SidebarContent className="flex h-full flex-col">
+        <div className="px-6 py-2">
           <SidebarGroup>
-            <SidebarGroupLabel className="bg-gradient-to-r from-purple-400 via-pink-500 to-yellow-400 bg-clip-text font-mono text-2xl font-bold text-transparent">
-              SkillForge
-            </SidebarGroupLabel>
-            <SidebarGroupContent className="mt-6 space-y-2">
+            {/* Clean Branding */}
+            <div className="mb-8">
+              <SidebarGroupLabel className="relative">
+                <div className="from-primary via-primary/80 to-primary/60 bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent">
+                  SkillForge
+                </div>
+                <div className="bg-primary absolute -bottom-2 left-0 h-1 w-16 rounded-full opacity-80"></div>
+              </SidebarGroupLabel>
+            </div>
+
+            {/* Navigation Menu - All Items Including Settings */}
+            <SidebarGroupContent className="space-y-2">
               <SidebarMenu>
                 {topItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
@@ -72,12 +55,30 @@ export function AppSidebar() {
                       <Link
                         href={item.url}
                         className={cn(
-                          'hover:bg-muted flex items-center gap-3 rounded-md px-3 py-2 text-xl font-medium transition-colors',
-                          isActive(item.url) ? 'bg-muted' : ''
+                          'group relative flex items-center gap-4 rounded-xl px-4 py-3 font-medium transition-all duration-200 hover:scale-[1.02]',
+                          isActive(item.url)
+                            ? 'bg-primary text-primary-foreground shadow-lg'
+                            : 'text-foreground hover:bg-accent hover:text-accent-foreground'
                         )}
                       >
-                        <item.icon className="text-muted-foreground h-4 w-4" />
-                        <span>{item.title}</span>
+                        {/* {item.icon && (
+                          <div
+                            className={cn(
+                              'flex h-6 w-6 items-center justify-center rounded-lg transition-colors',
+                              isActive(item.url)
+                                ? 'text-primary-foreground'
+                                : 'text-muted-foreground group-hover:text-accent-foreground'
+                            )}
+                          >
+                            <item.icon className="h-5 w-5" />
+                          </div>
+                        )} */}
+                        <span className="text-2xl font-extrabold">
+                          {item.title}
+                        </span>
+                        {isActive(item.url) && (
+                          <div className="bg-primary-foreground/30 absolute top-1/2 right-0 h-6 w-1 -translate-y-1/2 rounded-l-full"></div>
+                        )}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -85,55 +86,6 @@ export function AppSidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        </div>
-
-        {/* Bottom Section: Profile + Actions */}
-        <div className="space-y-4">
-          {/* <SidebarMenu>
-            {bottomItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link
-                    href={item.url}
-                    className="hover:bg-muted flex items-center gap-3 rounded-md px-3 py-2 text-xl transition-colors"
-                  >
-                    <item.icon className="text-muted-foreground h-4 w-4" />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu> */}
-
-          <div className="border-t pt-4">
-            <div className="flex items-center gap-3">
-              {image && (
-                <Image
-                  src={image}
-                  alt="Profile"
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
-              )}
-              <div className="flex flex-col">
-                <span className="text-xl font-medium">{name}</span>
-                <span className="text-muted-foreground text-xs">{email}</span>
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center gap-2">
-              <ModeToggle />
-              <Button
-                variant="destructive"
-                size="sm"
-                className="flex-grow"
-                onClick={() => void signOut()}
-              >
-                Sign Out
-              </Button>
-            </div>
-          </div>
         </div>
       </SidebarContent>
     </Sidebar>

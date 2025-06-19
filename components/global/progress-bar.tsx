@@ -1,18 +1,16 @@
 import { cn } from '@/lib/utils';
 
 type ProgressBarProps = {
-  /**
-   * The progress value, ranging from 0 to 100.
-   */
   progress: number;
+  length?: number;
 };
 
-function ProgressBar({ progress }: ProgressBarProps) {
+function ProgressBar({ progress, length = 30 }: ProgressBarProps) {
   // Ensure progress is clamped between 0 and 100
   const clampedProgress = Math.max(0, Math.min(100, progress));
 
   // Calculate how many bars should be active out of 30
-  const activeBars = (clampedProgress / 100) * 30;
+  const activeBars = (clampedProgress / 100) * length;
 
   return (
     <div className="flex items-center gap-3">
@@ -23,7 +21,7 @@ function ProgressBar({ progress }: ProgressBarProps) {
         aria-valuemin={0}
         aria-valuemax={100}
       >
-        {Array.from({ length: 30 }).map((_, index) => (
+        {Array.from({ length: length }).map((_, index) => (
           <Bar key={index} isActive={activeBars > index} />
         ))}
       </div>

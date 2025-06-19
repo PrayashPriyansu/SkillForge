@@ -3,16 +3,22 @@ import Link from 'next/link';
 import { Users } from 'lucide-react';
 
 import ProgressBar from '@/components/global/progress-bar';
+import { useGlobalStore } from '@/components/providers/store-provider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardTitle } from '@/components/ui/card';
 import { Doc } from '@/convex/_generated/dataModel';
 
 type Props = {
-  group: Doc<'group'>;
+  group: Doc<'groups'>;
 };
 
 function GroupCards({ group }: Props) {
+  const setGroup = useGlobalStore((state) => state.setGroup);
+
+  function handleGroupSelect() {
+    setGroup(group);
+  }
   return (
     <Card className="col-span-12 h-[180px] p-4 shadow-md transition-all hover:shadow-lg md:col-span-6">
       <CardTitle className="mb-2 flex items-center text-xl font-semibold">
@@ -24,10 +30,10 @@ function GroupCards({ group }: Props) {
       </CardTitle>
       <CardContent className="space-y-4 p-0">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-          <ProgressBar progress={group.averageProgress} />
+          <ProgressBar progress={group.progress} />
           <div className="text-muted-foreground flex items-center gap-1 text-sm">
             <Users className="h-4 w-4" />
-            {group.menteeCount + group.mentorCount} members
+            {/* {group.menteeCount + group.mentorCount} members */}
           </div>
         </div>
 
@@ -41,8 +47,8 @@ function GroupCards({ group }: Props) {
       </CardContent>
       <CardAction className="flex w-full">
         <div className="flex-1"></div>
-        <Button className="font-semibold" asChild>
-          <Link href={`/groups/${group._id}`}>Enter Group</Link>
+        <Button className="font-semibold" asChild onClick={handleGroupSelect}>
+          <Link href={`/group/${group._id}`}>Enter Group</Link>
         </Button>
       </CardAction>
     </Card>

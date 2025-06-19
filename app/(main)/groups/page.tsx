@@ -9,7 +9,7 @@ import { api } from '@/convex/_generated/api';
 
 type Props = object;
 function Page({}: Props) {
-  const groups = useQuery(api.group.getGroups);
+  const groups = useQuery(api.group.getGroups, { limit: 100 });
 
   return (
     <>
