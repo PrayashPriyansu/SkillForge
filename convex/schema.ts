@@ -68,7 +68,61 @@ export default defineSchema({
     xp: v.number(), // XP earned for completing this lesson
   }).index('by_course', ['courseId']),
 
-  // 6. USER PROGRESS (1 per lesson per user per group)
+  // 6. Topics (within lessons)
+  topics: defineTable({
+    lessonId: v.id('lessons'),
+    title: v.string(),
+    description: v.optional(v.string()),
+    order: v.number(),
+    status: v.union(v.literal('draft'), v.literal('published')),
+    createdBy: v.id('users'),
+  }).index('by_lesson', ['lessonId']),
+
+  // 7. Subtopics (within topics)
+  subtopics: defineTable({
+    topicId: v.id('topics'),
+    title: v.string(),
+    description: v.optional(v.string()),
+    content: v.optional(v.string()),
+    estimatedTime: v.optional(v.number()), // in minutes
+    order: v.number(),
+    status: v.union(v.literal('draft'), v.literal('published')),
+    createdBy: v.id('users'),
+  }).index('by_topic', ['topicId']),
+
+  // 8. Tests (linked to subtopics)
+  tests: defineTable({
+    subtopicId: v.id('subtopics'),
+    title: v.string(),
+    description: v.optional(v.string()),
+    questions: v.array(
+      v.object({
+        question: v.string(),
+        options: v.array(v.string()),
+        correctAnswer: v.number(),
+        explanation: v.optional(v.string()),
+      })
+    ),
+    timeLimit: v.optional(v.number()), // in minutes
+    passingScore: v.number(), // percentage
+    status: v.union(v.literal('draft'), v.literal('published')),
+    createdBy: v.id('users'),
+  }).index('by_subtopic', ['subtopicId']),
+
+  // 9. Test Results
+  testResults: defineTable({
+    testId: v.id('tests'),
+    userId: v.id('users'),
+    groupId: v.id('groups'),
+    score: v.number(),
+    answers: v.array(v.number()),
+    completedAt: v.number(),
+    passed: v.boolean(),
+  })
+    .index('by_test', ['testId'])
+    .index('by_user', ['userId']),
+
+  // 10. USER PROGRESS (1 per lesson per user per group)
   userProgress: defineTable({
     userId: v.id('users'),
     groupId: v.id('groups'),

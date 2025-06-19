@@ -13,8 +13,8 @@ import { Id } from '@/convex/_generated/dataModel';
 import CreateLessonForm from './add-lesson-form';
 import LessonCard from './lesson-card';
 
-type Props = { isEdit: boolean; courseId: Id<'courses'> };
-function Lessons({ isEdit, courseId }: Props) {
+type Props = { courseId: Id<'courses'> };
+function Lessons({ courseId }: Props) {
   const router = useRouter();
   const lessons = useQuery(api.lessons.getLessons, { courseId: courseId });
 
@@ -24,18 +24,13 @@ function Lessons({ isEdit, courseId }: Props) {
     return <div>Loading lessons...</div>;
   }
 
-  // const handleChapterChange = (
-  //   index: number,
-  //   field: string,
-  //   value: string | number
-  // ) => {
-  //   const updated = [...(lessons ?? [])];
-  //   updated[index] = { ...updated[index], [field]: value };
-  //   setCourse({ ...updated });
-  // };
-
   const goBack = () => {
     router.back();
+  };
+
+  const handleLessonClick = (lesson: any) => {
+    // Navigate to lesson detail page with topics
+    router.push(`/group/[groupId]/course/${courseId}/${lesson._id}`);
   };
 
   return (
@@ -63,10 +58,10 @@ function Lessons({ isEdit, courseId }: Props) {
       <div className="grid grid-cols-12 gap-6">
         {lessons.map((lesson, idx) => (
           <LessonCard
-            isEdit={isEdit}
             lesson={lesson}
             key={idx}
             isMentor={true}
+            onLessonClick={handleLessonClick}
           />
         ))}
       </div>
