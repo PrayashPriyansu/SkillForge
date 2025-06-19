@@ -14,10 +14,7 @@ interface SubtopicCardProps {
   isMentor?: boolean;
 }
 
-export default function SubtopicCard({
-  subtopic,
-  isMentor = false,
-}: SubtopicCardProps) {
+export default function SubtopicCard({ subtopic }: SubtopicCardProps) {
   const router = useRouter();
 
   const handleViewDetails = () => {

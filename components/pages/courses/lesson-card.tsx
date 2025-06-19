@@ -115,7 +115,7 @@ export default function LessonCard({
       });
       setIsEditing(false);
     } catch (err) {
-      alert('Error saving lesson.');
+      alert(`Error saving lesson. ${err}`);
     } finally {
       setIsSaving(false);
     }
@@ -127,7 +127,7 @@ export default function LessonCard({
     try {
       await deleteLesson({ id: lesson._id });
     } catch (err) {
-      alert('Error deleting lesson.');
+      alert(`Error deleting lesson. ${err}`);
       setIsDeleting(false);
     }
   };

@@ -8,7 +8,7 @@ import { ArrowBigLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
+import { Doc, Id } from '@/convex/_generated/dataModel';
 
 import CreateLessonForm from './add-lesson-form';
 import LessonCard from './lesson-card';
@@ -28,7 +28,7 @@ function Lessons({ courseId }: Props) {
     router.back();
   };
 
-  const handleLessonClick = (lesson: any) => {
+  const handleLessonClick = (lesson: Doc<'lessons'>) => {
     // Navigate to lesson detail page with topics
     router.push(`/group/[groupId]/course/${courseId}/${lesson._id}`);
   };

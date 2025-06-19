@@ -2,8 +2,7 @@ import { Search } from 'lucide-react';
 
 import { Input } from '../ui/input';
 
-type Props = {};
-function SearchBar({}: Props) {
+function SearchBar() {
   return (
     <div className="text-muted-foreground flex items-center gap-3 text-sm">
       <div className="group relative">

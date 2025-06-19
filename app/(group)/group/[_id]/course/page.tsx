@@ -22,7 +22,6 @@ export default function GroupCoursePage() {
 
   const [expandedCourseId, setExpandedCourseId] =
     useState<Id<'courses'> | null>(null);
-  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const isMentor = MOCK_ROLE === 'mentor';
 

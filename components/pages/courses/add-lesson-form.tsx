@@ -70,7 +70,7 @@ export default function CreateLessonForm({
           xp: value.xp,
           status: 'draft',
         });
-
+        console.log(newLessonId);
         setIsOpen(false); // Close the sheet on success
         form.reset(); // Reset form fields
         onLessonCreated?.(); // Call the optional callback

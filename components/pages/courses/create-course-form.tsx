@@ -67,7 +67,7 @@ export default function CreateCourseForm({
           totalXp: 0,
           groupId: groupId as Id<'groups'>,
         });
-
+        console.log(newCourseId);
         setIsOpen(false); // Close the sheet on success
         form.reset(); // Reset form fields
         onCourseCreated?.(); // Call the optional callback

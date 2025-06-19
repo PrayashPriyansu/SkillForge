@@ -5,7 +5,6 @@ import { useForm } from '@tanstack/react-form';
 import { useMutation } from 'convex/react';
 import { Plus } from 'lucide-react';
 
-import { useGlobalStore } from '@/components/providers/store-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -24,7 +23,7 @@ type GroupFormValues = {
 };
 
 export default function CreateGroupForm() {
-  const user_id = useGlobalStore((state) => state.user._id);
+  // const user_id = useGlobalStore((state) => state.user._id);
 
   const createGroup = useMutation(api.group.createGroup);
 
