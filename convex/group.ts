@@ -30,6 +30,8 @@ export const getGroup = query({
   handler: async (ctx, args) => {
     const user_id = await getAuthUserId(ctx);
 
+    console.log(user_id);
+
     if (!user_id) {
       throw new Error('User not authenticated');
     }
@@ -65,5 +67,29 @@ export const createGroup = mutation({
     });
 
     return group;
+  },
+});
+
+export const getRole = query({
+  args: {
+    groupId: v.id('groups'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+
+    const membership = await ctx.db
+      .query('groupMemberships')
+      .withIndex('by_user_group', (q) =>
+        q.eq('userId', userId).eq('groupId', args.groupId)
+      )
+      .unique();
+
+    if (!membership) {
+      return null;
+    }
+    return membership.role;
   },
 });

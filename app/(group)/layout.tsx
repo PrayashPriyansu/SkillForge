@@ -1,13 +1,13 @@
 import { PropsWithChildren } from 'react';
 
-import GroupLayout from '@/components/pages/groups/group-layout';
+import RoleSync from '@/components/auth/role-sync';
 
 type Props = PropsWithChildren & {};
 function layout({ children }: Props) {
   return (
-    <div className="flex-">
-      <GroupLayout>{children}</GroupLayout>
-    </div>
+    <RoleSync>
+      <div className="flex h-dvh w-dvw flex-col">{children}</div>
+    </RoleSync>
   );
 }
 export default layout;

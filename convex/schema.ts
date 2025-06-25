@@ -45,8 +45,8 @@ export default defineSchema({
       v.literal('pending')
     ),
   })
-    .index('by_user', ['userId'])
-    .index('by_group', ['groupId']),
+    .index('by_group', ['groupId'])
+    .index('by_user_group', ['userId', 'groupId']),
 
   // 4. Learning Content: Courses (Reusable Curricula)
   courses: defineTable({

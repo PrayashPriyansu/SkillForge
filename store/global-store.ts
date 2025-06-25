@@ -7,11 +7,13 @@ import { Doc, Id } from '@/convex/_generated/dataModel';
 export type GlobalState = {
   user: Doc<'users'>;
   currGroup: Doc<'groups'>;
+  isMentor: boolean;
 };
 
 export type GlobalActions = {
   setUser: (user: Doc<'users'>) => void;
   setGroup: (group: Doc<'groups'>) => void;
+  setIsMentor: (isMentor: boolean) => void;
 };
 
 export type GlobalStore = GlobalState & GlobalActions;
@@ -31,6 +33,7 @@ export const defaultInitState: GlobalState = {
     progress: 0,
     isComplete: false,
   },
+  isMentor: false,
 };
 
 export const createGlobalStore = (
@@ -43,6 +46,8 @@ export const createGlobalStore = (
         setUser: (user: Doc<'users'>) => set((state) => ({ ...state, user })),
         setGroup: (group: Doc<'groups'>) =>
           set((state) => ({ ...state, currGroup: group })),
+        setIsMentor: (isMentor: boolean) =>
+          set((state) => ({ ...state, isMentor })),
       }),
       {
         name: 'global-store',

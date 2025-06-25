@@ -30,7 +30,7 @@ function Lessons({ courseId }: Props) {
 
   const handleLessonClick = (lesson: Doc<'lessons'>) => {
     // Navigate to lesson detail page with topics
-    router.push(`/group/[groupId]/course/${courseId}/${lesson._id}`);
+    router.push(`${courseId}/${lesson._id}`);
   };
 
   return (
@@ -56,6 +56,30 @@ function Lessons({ courseId }: Props) {
         <CreateLessonForm courseId={courseId} length={lessons.length} />
       </div>
       <div className="grid grid-cols-12 gap-6">
+        {lessons.map((lesson, idx) => (
+          <LessonCard
+            lesson={lesson}
+            key={idx}
+            isMentor={true}
+            onLessonClick={handleLessonClick}
+          />
+        ))}
+        {lessons.map((lesson, idx) => (
+          <LessonCard
+            lesson={lesson}
+            key={idx}
+            isMentor={true}
+            onLessonClick={handleLessonClick}
+          />
+        ))}
+        {lessons.map((lesson, idx) => (
+          <LessonCard
+            lesson={lesson}
+            key={idx}
+            isMentor={true}
+            onLessonClick={handleLessonClick}
+          />
+        ))}
         {lessons.map((lesson, idx) => (
           <LessonCard
             lesson={lesson}

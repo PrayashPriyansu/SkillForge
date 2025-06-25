@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useMutation, useQuery } from 'convex/react';
 import { ArrowLeft, Clock, Edit, Plus } from 'lucide-react';
 
+import { useGlobalStore } from '@/components/providers/store-provider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,8 +21,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-
-const MOCK_ROLE = 'mentor';
 
 export default function SubtopicDetailPage() {
   const { id } = useParams();
@@ -38,7 +37,7 @@ export default function SubtopicDetailPage() {
   const [editEstimatedTime, setEditEstimatedTime] = useState(15);
   const [editStatus, setEditStatus] = useState<'draft' | 'published'>('draft');
 
-  const isMentor = MOCK_ROLE === 'mentor';
+  const isMentor = useGlobalStore((s) => s.isMentor);
 
   if (!subtopic) {
     return <div>Loading...</div>;
@@ -78,53 +77,53 @@ export default function SubtopicDetailPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-6">
+    <div className="container mx-auto max-w-4xl px-2 py-6 sm:px-4 sm:py-10">
       {/* Breadcrumb */}
-      <div className="mb-6">
+      <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <Button
           variant="ghost"
           onClick={() => router.back()}
-          className="mb-4 flex items-center gap-2"
+          className="hover:bg-muted/70 flex w-fit items-center gap-2 rounded-lg px-2 py-2 text-base font-medium transition-colors sm:px-3"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Lesson
+          <span className="hidden sm:inline">Back to Lesson</span>
         </Button>
-
-        <nav className="text-muted-foreground text-sm">
+        <nav className="text-muted-foreground text-xs break-words sm:text-sm">
           Course &gt; Lesson &gt; Topic &gt;{' '}
-          <span className="text-foreground font-medium">Subtopic</span>
+          <span className="text-foreground font-semibold">Subtopic</span>
         </nav>
       </div>
-
       {/* Header */}
-      <div className="mb-8">
+      <div className="bg-card mb-8 rounded-xl p-4 shadow-sm transition-all sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             {isEditing ? (
               <Input
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
-                className="mb-2 text-2xl font-bold"
+                className="mb-2 text-lg font-bold sm:text-2xl"
               />
             ) : (
-              <h1 className="mb-2 text-3xl font-bold">{subtopic.title}</h1>
+              <h1 className="text-primary mb-2 text-xl font-bold tracking-tight break-words sm:text-3xl">
+                {subtopic.title}
+              </h1>
             )}
-
             {isEditing ? (
               <Textarea
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
                 placeholder="Subtopic description..."
-                className="min-h-[60px]"
+                className="min-h-[48px] sm:min-h-[60px]"
               />
             ) : (
               subtopic.description && (
-                <p className="text-muted-foreground">{subtopic.description}</p>
+                <p className="text-muted-foreground text-sm break-words sm:text-base">
+                  {subtopic.description}
+                </p>
               )
             )}
           </div>
-
-          <div className="flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
             {isEditing ? (
               <Select
                 value={editStatus}
@@ -132,7 +131,7 @@ export default function SubtopicDetailPage() {
                   setEditStatus(value as 'draft' | 'published')
                 }
               >
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-28 sm:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -141,11 +140,13 @@ export default function SubtopicDetailPage() {
                 </SelectContent>
               </Select>
             ) : (
-              <Badge variant={getStatusVariant(subtopic.status)}>
+              <Badge
+                variant={getStatusVariant(subtopic.status)}
+                className="px-2 py-1 text-xs sm:text-sm"
+              >
                 {getStatusIcon(subtopic.status)} {subtopic.status}
               </Badge>
             )}
-
             {isEditing ? (
               <Input
                 type="number"
@@ -153,25 +154,33 @@ export default function SubtopicDetailPage() {
                 max="180"
                 value={editEstimatedTime}
                 onChange={(e) => setEditEstimatedTime(Number(e.target.value))}
-                className="w-20"
+                className="w-16 sm:w-20"
               />
             ) : (
               subtopic.estimatedTime && (
-                <Badge variant="outline" className="flex items-center gap-1">
+                <Badge
+                  variant="outline"
+                  className="flex items-center gap-1 px-2 py-1 text-xs sm:text-sm"
+                >
                   <Clock className="h-3 w-3" />
                   {subtopic.estimatedTime} min
                 </Badge>
               )
             )}
-
             {isMentor && (
               <div className="flex gap-2">
                 {isEditing ? (
                   <>
-                    <Button onClick={handleSave}>Save</Button>
+                    <Button
+                      onClick={handleSave}
+                      className="px-3 py-2 text-sm transition-colors"
+                    >
+                      Save
+                    </Button>
                     <Button
                       variant="outline"
                       onClick={() => setIsEditing(false)}
+                      className="px-3 py-2 text-sm transition-colors"
                     >
                       Cancel
                     </Button>
@@ -179,7 +188,7 @@ export default function SubtopicDetailPage() {
                 ) : (
                   <Button
                     onClick={handleEdit}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 px-3 py-2 text-sm transition-colors"
                   >
                     <Edit className="h-4 w-4" />
                     Edit Subtopic
@@ -190,13 +199,14 @@ export default function SubtopicDetailPage() {
           </div>
         </div>
       </div>
-
-      {/* Content */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <Card>
+      {/* Content & Side */}
+      <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3">
+        <div className="order-2 lg:order-1 lg:col-span-2">
+          <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Content</CardTitle>
+              <CardTitle className="text-primary text-lg font-semibold sm:text-xl">
+                Content
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {isEditing ? (
@@ -204,12 +214,12 @@ export default function SubtopicDetailPage() {
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
                   placeholder="Main content for this subtopic (Markdown supported)"
-                  className="min-h-[300px]"
+                  className="min-h-[200px] sm:min-h-[300px]"
                 />
               ) : (
-                <div className="prose max-w-none">
+                <div className="prose max-w-none text-sm sm:text-base">
                   {subtopic.content ? (
-                    <div className="whitespace-pre-wrap">
+                    <div className="break-words whitespace-pre-wrap">
                       {subtopic.content}
                     </div>
                   ) : (
@@ -222,24 +232,28 @@ export default function SubtopicDetailPage() {
             </CardContent>
           </Card>
         </div>
-
-        <div className="space-y-6">
+        <div className="order-1 space-y-6 lg:order-2">
           {/* Tests Section */}
-          <Card>
+          <Card className="shadow-sm">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Tests</CardTitle>
+                <CardTitle className="text-primary text-base font-semibold sm:text-lg">
+                  Tests
+                </CardTitle>
                 {isMentor && (
-                  <Button size="sm" className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    className="flex items-center gap-2 px-2 py-1 text-xs transition-colors sm:text-sm"
+                  >
                     <Plus className="h-3 w-3" />
-                    Create Test
+                    <span className="xs:inline hidden">Create Test</span>
                   </Button>
                 )}
               </div>
             </CardHeader>
             <CardContent>
-              <div className="py-8 text-center">
-                <div className="text-muted-foreground text-sm">
+              <div className="py-6 text-center sm:py-8">
+                <div className="text-muted-foreground text-xs sm:text-sm">
                   {isMentor
                     ? 'No tests created yet. Create one to assess learning!'
                     : 'No tests available for this subtopic.'}
@@ -247,20 +261,25 @@ export default function SubtopicDetailPage() {
               </div>
             </CardContent>
           </Card>
-
           {/* Progress Section (for mentees) */}
           {!isMentor && (
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
-                <CardTitle>Your Progress</CardTitle>
+                <CardTitle className="text-primary text-base font-semibold sm:text-lg">
+                  Your Progress
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Status</span>
-                    <Badge variant="outline">Not Started</Badge>
+                    <span className="text-xs sm:text-sm">Status</span>
+                    <Badge variant="outline" className="text-xs sm:text-sm">
+                      Not Started
+                    </Badge>
                   </div>
-                  <Button className="w-full">Mark as Complete</Button>
+                  <Button className="w-full px-3 py-2 text-sm transition-colors">
+                    Mark as Complete
+                  </Button>
                 </div>
               </CardContent>
             </Card>

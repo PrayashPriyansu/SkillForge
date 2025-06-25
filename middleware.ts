@@ -5,7 +5,7 @@ import {
 } from '@convex-dev/auth/nextjs/server';
 
 const isSignInPage = createRouteMatcher(['/login']);
-const isProtectedRoute = createRouteMatcher(['/home', '/groups']);
+const isProtectedRoute = createRouteMatcher(['/home', '/groups', '/group']);
 
 export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
   if (isSignInPage(request) && (await convexAuth.isAuthenticated())) {
