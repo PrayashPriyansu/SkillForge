@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { PropsWithChildren, useEffect } from 'react';
 
 import { useQuery } from 'convex/react';
@@ -12,11 +11,10 @@ import { useGlobalStore } from '../providers/store-provider';
 
 type Props = PropsWithChildren & {};
 function RoleSync({ children }: Props) {
-  const { _id } = useParams();
+  // const { _id } = useParams();
   const setGroup = useGlobalStore((state) => state.setGroup);
   const setIsMentor = useGlobalStore((state) => state.setIsMentor);
-  console.log(_id);
-
+  const _id = 'kn7915wt1dye92qztbr9926bzx7j3e1b';
   const group = useQuery(api.group.getGroup, { _id: _id as Id<'groups'> });
   const role = useQuery(api.group.getRole, { groupId: _id as Id<'groups'> });
 

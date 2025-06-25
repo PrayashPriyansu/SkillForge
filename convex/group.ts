@@ -28,6 +28,8 @@ export const getGroup = query({
     _id: v.id('groups'),
   },
   handler: async (ctx, args) => {
+    console.log(args._id);
+
     const user_id = await getAuthUserId(ctx);
 
     console.log(user_id);

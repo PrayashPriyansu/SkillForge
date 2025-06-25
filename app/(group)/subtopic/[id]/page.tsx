@@ -77,7 +77,7 @@ export default function SubtopicDetailPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl min-w-0 px-2 py-6 sm:px-4 sm:py-10 overflow-x-hidden">
+    <div className="container mx-auto max-w-4xl min-w-0 overflow-x-hidden px-2 py-6 sm:px-4 sm:py-10">
       {/* Breadcrumb */}
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <Button
@@ -89,7 +89,7 @@ export default function SubtopicDetailPage() {
           <span className="hidden sm:inline">Back to Lesson</span>
         </Button>
         <nav className="text-muted-foreground text-xs break-words sm:text-sm">
-          Course > Lesson > Topic >{' '}
+          Course - Lesson - Topic -
           <span className="text-foreground font-semibold">Subtopic</span>
         </nav>
       </div>
@@ -201,7 +201,7 @@ export default function SubtopicDetailPage() {
       </div>
       {/* Content & Side */}
       <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3">
-        <div className="order-2 lg:order-1 lg:col-span-2 min-w-0">
+        <div className="order-2 min-w-0 lg:order-1 lg:col-span-2">
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-primary text-lg font-semibold sm:text-xl">
@@ -219,7 +219,7 @@ export default function SubtopicDetailPage() {
               ) : (
                 <div className="prose max-w-none text-sm sm:text-base">
                   {subtopic.content ? (
-                    <div className="break-words whitespace-pre-wrap overflow-wrap-anywhere">
+                    <div className="overflow-wrap-anywhere break-words whitespace-pre-wrap">
                       {subtopic.content}
                     </div>
                   ) : (
@@ -232,7 +232,7 @@ export default function SubtopicDetailPage() {
             </CardContent>
           </Card>
         </div>
-        <div className="order-1 space-y-6 lg:order-2 min-w-0">
+        <div className="order-1 min-w-0 space-y-6 lg:order-2">
           {/* Tests Section */}
           <Card className="shadow-sm">
             <CardHeader>

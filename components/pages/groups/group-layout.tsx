@@ -17,9 +17,11 @@ function GroupLayout({ children }: Props) {
   return (
     <SidebarProvider className="flex h-dvh max-w-full overflow-x-hidden">
       <AppSidebar topItems={groupSidebarTopItems} />
-      <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">
+      <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
         <GroupHeader />
-        <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto">
+          {children}
+        </div>
       </div>
     </SidebarProvider>
   );

@@ -35,11 +35,11 @@ export default function GroupCoursePage() {
   }
 
   return (
-    <div className="bg-background flex-1 min-w-0 overflow-x-hidden">
+    <div className="bg-background min-w-0 overflow-x-hidden">
       <div className="container mx-auto max-w-7xl min-w-0 px-4 py-6 sm:py-8">
         {/* Header Section */}
         <div className="flex items-center">
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0 flex-1">
             <h2 className="text-2xl font-bold">Courses</h2>
             <div className="my-2 flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="text-xs sm:text-sm">
