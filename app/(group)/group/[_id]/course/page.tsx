@@ -77,7 +77,7 @@ export default function GroupCoursePage() {
           </div>
         ) : (
           <div className="mt-3 space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-12 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {coursesForGroup.map((course) => {
                 if (!course) return null;
                 return (

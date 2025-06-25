@@ -96,7 +96,7 @@ export default function CreateCourseForm({
             form.handleSubmit();
           }}
           className="mt-2 flex flex-1 flex-col gap-5"
-        >
+>
           {/* Course Title Field */}
           <form.Field name="title">
             {(field) => (
@@ -127,7 +127,7 @@ export default function CreateCourseForm({
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Brief description of the lesson content"
+ placeholder="Brief description of the course content"
                 />
                 {field.state.meta.errors && (
                   <p className="text-sm text-red-500">

@@ -20,8 +20,8 @@ function GroupCards({ group }: Props) {
     setGroup(group);
   }
   return (
-    <Card className="col-span-12 h-[180px] p-4 shadow-md transition-all hover:shadow-lg md:col-span-6">
-      <CardTitle className="mb-2 flex items-center text-xl font-semibold">
+    <Card className="col-span-12 h-[180px] w-fit p-4 shadow-md transition-all hover:shadow-lg sm:col-span-6 lg:col-span-4">
+      <CardTitle className="mb-2 flex flex-col items-start text-lg font-semibold sm:flex-row sm:items-center sm:text-xl">
         <span>{group.name}</span>
         <div className="flex-1"></div>
         <span>
@@ -29,7 +29,7 @@ function GroupCards({ group }: Props) {
         </span>
       </CardTitle>
       <CardContent className="space-y-4 p-0">
-        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <ProgressBar progress={group.progress} />
           <div className="text-muted-foreground flex items-center gap-1 text-sm">
             <Users className="h-4 w-4" />

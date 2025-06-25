@@ -50,16 +50,16 @@ export default function LessonDetail({
   const currentLesson = lesson[0]; // Assuming we get the specific lesson
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 md:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-8">
         <Button
           variant="ghost"
           onClick={() => router.back()}
-          className="mb-4 flex items-center gap-2"
+          className="mb-4 flex items-center gap-2 text-sm md:text-base"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to All Lessons
+          <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
+          <span className="hidden sm:inline">Back to All Lessons</span>
         </Button>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -70,13 +70,13 @@ export default function LessonDetail({
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 text-sm md:text-base">
             <Badge variant="outline" className="flex items-center gap-1">
-              <Zap className="h-3 w-3" />
+ <Zap className="h-3 w-3 md:h-4 md:w-4" />
               {currentLesson?.xp} XP
             </Badge>
             <Badge variant="outline" className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
+ <Clock className="h-3 w-3 md:h-4 md:w-4" />
               45 min
             </Badge>
           </div>
@@ -86,7 +86,7 @@ export default function LessonDetail({
       {/* Topics Section */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Topics</h2>
+          <h2 className="text-xl font-semibold sm:text-2xl">Topics</h2>
           {isMentor && (
             <CreateTopicForm lessonId={lessonId} topicsCount={topics.length} />
           )}

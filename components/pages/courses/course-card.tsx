@@ -97,7 +97,7 @@ export default function CourseCard({
 
   return (
     <Card
-      className={`group col-span-12 transition-all duration-300 hover:shadow-lg sm:col-span-6 ${
+      className={`group col-span-12 transition-all duration-300 hover:shadow-lg sm:col-span-6 md:col-span-4 lg:col-span-3 ${
         isExpanded ? 'ring-primary/20 shadow-lg ring-2' : ''
       }`}
     >
@@ -131,7 +131,7 @@ export default function CourseCard({
         ) : (
           <CardTitle
             className="hover:text-primary line-clamp-2 cursor-pointer text-lg transition-colors sm:text-xl"
-            onClick={() => onToggleExpand(course._id)}
+            onClick={() => !isEditing && onToggleExpand(course._id)}
           >
             {course.title}
           </CardTitle>
@@ -148,7 +148,7 @@ export default function CourseCard({
               className="min-h-[80px] resize-none"
             />
             <div className="flex justify-end gap-2">
-              <Button variant="outline" size="sm" onClick={handleCancelEdit}>
+              <Button variant="outline" size="sm" onClick={handleCancelEdit} className="w-full sm:w-auto">
                 Cancel
               </Button>
               <Button size="sm" onClick={handleSaveEdit}>

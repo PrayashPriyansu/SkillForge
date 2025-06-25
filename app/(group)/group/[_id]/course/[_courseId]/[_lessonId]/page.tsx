@@ -12,7 +12,7 @@ export default function LessonDetailPage() {
   const isMentor = MOCK_ROLE === 'mentor';
 
   return (
-    <div className="p-6">
+    <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <LessonDetail
         courseId={_courseId as Id<'courses'>}
         lessonId={_lessonId as Id<'lessons'>}

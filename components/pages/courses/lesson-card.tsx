@@ -140,8 +140,8 @@ export default function LessonCard({
       onClick={() => !isEditing && onLessonClick?.(lesson)}
     >
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-wrap items-center gap-2">
+ <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
+ <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <Badge variant="outline">
               <Hash className="mr-1 h-4 w-4" />
               {editFormData.order}
@@ -195,7 +195,7 @@ export default function LessonCard({
               placeholder="Title"
             />
             <div className="grid grid-cols-2 gap-2">
-              <Select
+              <Select // Adjust select width if needed
                 value={editFormData.status}
                 onValueChange={(v) => handleFormDataChange('status', v)}
               >
@@ -207,7 +207,7 @@ export default function LessonCard({
                   <SelectItem value="published">Published</SelectItem>
                 </SelectContent>
               </Select>
-              <Input
+              <Input // Adjust input width if needed
                 type="number"
                 min="1"
                 max="100"
@@ -234,7 +234,7 @@ export default function LessonCard({
               placeholder="Lesson description..."
               className="min-h-[80px]"
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
               <Button size="sm" variant="outline" onClick={handleCancelEdit}>
                 Cancel
               </Button>

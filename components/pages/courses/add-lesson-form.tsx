@@ -98,7 +98,7 @@ export default function CreateLessonForm({
             e.stopPropagation(); // Stop propagation to prevent sheet from closing prematurely
             form.handleSubmit();
           }}
-          className="mt-2 flex flex-1 flex-col gap-5"
+          className="mt-2 flex flex-1 flex-col gap-4 p-2 sm:p-4"
         >
           {/* Lesson Title Field */}
           <form.Field name="title">
@@ -131,6 +131,7 @@ export default function CreateLessonForm({
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Brief description of the lesson content"
+                  className="min-h-[80px] resize-none"
                 />
                 {field.state.meta.errors && (
                   <p className="text-sm text-red-500">

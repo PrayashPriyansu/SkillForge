@@ -11,7 +11,7 @@ function Page({}: Props) {
 
   console.log(_courseId);
   return (
-    <div className="p-6">
+    <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <Lessons courseId={_courseId as Id<'courses'>} />
     </div>
   );

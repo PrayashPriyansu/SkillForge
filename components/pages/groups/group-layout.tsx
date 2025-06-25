@@ -15,7 +15,7 @@ function GroupLayout({ children }: Props) {
 
   const groupSidebarTopItems = getGroupSidebarTopItems(_id as string);
   return (
-    <SidebarProvider className="flex">
+    <SidebarProvider className="flex h-dvh">
       <AppSidebar topItems={groupSidebarTopItems} />
       <div className="flex flex-1 flex-col">
         <GroupHeader />
