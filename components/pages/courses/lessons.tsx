@@ -34,7 +34,7 @@ function Lessons({ courseId }: Props) {
   };
 
   return (
-    <div className="">
+    <div className="min-w-0 overflow-x-hidden">
       <Button
         variant="ghost"
         className="flex items-center gap-2"
@@ -43,7 +43,7 @@ function Lessons({ courseId }: Props) {
         <ArrowBigLeft /> Back
       </Button>
       <div className="flex items-center">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-bold">Lesson</h2>
           <div className="my-2 flex flex-wrap items-center gap-2">
             <Badge variant="outline" className="text-xs sm:text-sm">
@@ -55,22 +55,6 @@ function Lessons({ courseId }: Props) {
         <CreateLessonForm courseId={courseId} length={lessons.length} />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {lessons.map((lesson, idx) => (
-          <LessonCard
-            lesson={lesson}
-            key={idx}
-            isMentor={true}
-            onLessonClick={handleLessonClick}
-          />
-        ))}
-        {lessons.map((lesson, idx) => (
-          <LessonCard
-            lesson={lesson}
-            key={idx}
-            isMentor={true}
-            onLessonClick={handleLessonClick}
-          />
-        ))}
         {lessons.map((lesson, idx) => (
           <LessonCard
             lesson={lesson}

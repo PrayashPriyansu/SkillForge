@@ -268,10 +268,16 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   letter-spacing: var(--tracking-normal);
-  /* overflow-x: clip; */
+  overflow-x: hidden;
+  min-width: 0;
 }
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

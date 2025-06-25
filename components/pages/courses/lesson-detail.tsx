@@ -50,7 +50,7 @@ export default function LessonDetail({
   const currentLesson = lesson[0]; // Assuming we get the specific lesson
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-6 md:px-6 lg:px-8">
+    <div className="container mx-auto max-w-4xl min-w-0 px-4 py-6 md:px-6 lg:px-8 overflow-x-hidden">
       {/* Header */}
       <div className="mb-8">
         <Button
@@ -63,20 +63,20 @@ export default function LessonDetail({
         </Button>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">{currentLesson?.title}</h1>
-            <p className="text-muted-foreground mt-2">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-3xl font-bold break-words">{currentLesson?.title}</h1>
+            <p className="text-muted-foreground mt-2 break-words">
               {currentLesson?.description}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2 text-sm md:text-base">
             <Badge variant="outline" className="flex items-center gap-1">
- <Zap className="h-3 w-3 md:h-4 md:w-4" />
+              <Zap className="h-3 w-3 md:h-4 md:w-4" />
               {currentLesson?.xp} XP
             </Badge>
             <Badge variant="outline" className="flex items-center gap-1">
- <Clock className="h-3 w-3 md:h-4 md:w-4" />
+              <Clock className="h-3 w-3 md:h-4 md:w-4" />
               45 min
             </Badge>
           </div>
