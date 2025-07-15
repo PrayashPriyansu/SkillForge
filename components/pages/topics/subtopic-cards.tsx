@@ -1,12 +1,14 @@
 'use client';
 
+import { useQuery } from 'convex/react';
 import { useRouter } from 'next/navigation';
 
-import { ArrowRight, Clock } from 'lucide-react';
+import { ArrowRight, Clock, TestTube } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { api } from '@/convex/_generated/api';
 import { Doc } from '@/convex/_generated/dataModel';
 
 interface SubtopicCardProps {
@@ -14,8 +16,15 @@ interface SubtopicCardProps {
   isMentor?: boolean;
 }
 
-export default function SubtopicCard({ subtopic }: SubtopicCardProps) {
+export default function SubtopicCard({ subtopic, isMentor = false }: SubtopicCardProps) {
   const router = useRouter();
+
+  // Check if this subtopic has any tests
+  const tests = useQuery(api.tests.getTestsBySubtopic, {
+    subtopicId: subtopic._id
+  });
+  const hasTest = tests && tests.length > 0;
+  const publishedTest = tests?.find(test => test.status === 'published');
 
   const handleViewDetails = () => {
     router.push(`/subtopic/${subtopic._id}`);
@@ -42,6 +51,14 @@ export default function SubtopicCard({ subtopic }: SubtopicCardProps) {
               >
                 {getStatusIcon(subtopic.status)} {subtopic.status}
               </Badge>
+
+              {/* Test indicator */}
+              {hasTest && (
+                <Badge variant="outline" className="text-xs">
+                  <TestTube className="h-3 w-3 mr-1" />
+                  {publishedTest ? 'Test Available' : 'Test Draft'}
+                </Badge>
+              )}
             </div>
 
             {subtopic.description && (
@@ -58,6 +75,14 @@ export default function SubtopicCard({ subtopic }: SubtopicCardProps) {
                 </div>
               )}
               <span>🧩 Subtopic</span>
+
+              {/* Show test info for mentees */}
+              {!isMentor && publishedTest && (
+                <div className="flex items-center gap-1">
+                  <TestTube className="h-3 w-3" />
+                  <span>Assessment available</span>
+                </div>
+              )}
             </div>
           </div>
 

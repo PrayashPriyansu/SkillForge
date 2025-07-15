@@ -16,9 +16,11 @@ import type {
 import type * as auth from "../auth.js";
 import type * as courses from "../courses.js";
 import type * as group from "../group.js";
+import type * as groupMemberships from "../groupMemberships.js";
 import type * as http from "../http.js";
 import type * as lessons from "../lessons.js";
 import type * as subtopics from "../subtopics.js";
+import type * as tests from "../tests.js";
 import type * as topics from "../topics.js";
 import type * as user from "../user.js";
 
@@ -34,9 +36,11 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   courses: typeof courses;
   group: typeof group;
+  groupMemberships: typeof groupMemberships;
   http: typeof http;
   lessons: typeof lessons;
   subtopics: typeof subtopics;
+  tests: typeof tests;
   topics: typeof topics;
   user: typeof user;
 }>;

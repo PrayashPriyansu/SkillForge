@@ -98,8 +98,9 @@ export default defineSchema({
     questions: v.array(
       v.object({
         question: v.string(),
-        options: v.array(v.string()),
-        correctAnswer: v.number(),
+        type: v.optional(v.union(v.literal('multiple_choice'), v.literal('text'))),
+        options: v.optional(v.array(v.string())),
+        correctAnswer: v.optional(v.number()),
         explanation: v.optional(v.string()),
       })
     ),
@@ -115,7 +116,7 @@ export default defineSchema({
     userId: v.id('users'),
     groupId: v.id('groups'),
     score: v.number(),
-    answers: v.array(v.number()),
+    answers: v.array(v.union(v.number(), v.string())), // Support both multiple choice (number) and text (string) answers
     completedAt: v.number(),
     passed: v.boolean(),
   })

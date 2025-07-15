@@ -2,11 +2,13 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { TestTube } from 'lucide-react';
+import { useTestManagement } from '@/hooks/use-test-management';
+import { MentorOnly, MenteeOnly, CreateButton, EditButton, useRole } from '@/components/role';
 
-import { useMutation, useQuery } from 'convex/react';
+import { useQuery } from 'convex/react';
 import { ArrowLeft, Clock, Edit, Plus } from 'lucide-react';
 
-import { useGlobalStore } from '@/components/providers/store-provider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,16 +30,23 @@ export default function SubtopicDetailPage() {
   const subtopic = useQuery(api.subtopics.getSubtopic, {
     id: id as Id<'subtopics'>,
   });
-  const updateSubtopic = useMutation(api.subtopics.updateSubtopic);
+  // const updateSubtopic = useMutation(api.subtopics.updateSubtopic);
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
-  const [editContent, setEditContent] = useState('');
+  const [editContent, setEditContent] = useState('Content');
   const [editEstimatedTime, setEditEstimatedTime] = useState(15);
   const [editStatus, setEditStatus] = useState<'draft' | 'published'>('draft');
 
-  const isMentor = useGlobalStore((s) => s.isMentor);
+  // Test management hook - always call with a stable value
+  const {
+    existingTest,
+    hasExistingTest,
+  } = useTestManagement(id as Id<'subtopics'>);
+
+  // Use the new role system instead of hardcoded checks
+  const { isMentor } = useRole();
 
   if (!subtopic) {
     return <div>Loading...</div>;
@@ -52,21 +61,21 @@ export default function SubtopicDetailPage() {
     setIsEditing(true);
   };
 
-  const handleSave = async () => {
-    try {
-      await updateSubtopic({
-        id: subtopic._id,
-        title: editTitle,
-        description: editDescription,
-        content: editContent,
-        estimatedTime: editEstimatedTime,
-        status: editStatus,
-      });
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Failed to update subtopic:', error);
-    }
-  };
+  // const handleSave = async () => {
+  //   try {
+  //     await updateSubtopic({
+  //       id: subtopic._id,
+  //       title: editTitle,
+  //       description: editDescription,
+  //       content: editContent,
+  //       estimatedTime: editEstimatedTime,
+  //       status: editStatus,
+  //     });
+  //     setIsEditing(false);
+  //   } catch (error) {
+  //     console.error('Failed to update subtopic:', error);
+  //   }
+  // };
 
   const getStatusVariant = (status: string) => {
     return status === 'published' ? 'default' : 'secondary';
@@ -77,7 +86,7 @@ export default function SubtopicDetailPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl min-w-0 overflow-x-hidden px-2 py-6 sm:px-4 sm:py-10">
+    <div className="flex h-screen flex-col p-2">
       {/* Breadcrumb */}
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <Button
@@ -167,12 +176,12 @@ export default function SubtopicDetailPage() {
                 </Badge>
               )
             )}
-            {isMentor && (
+            <MentorOnly>
               <div className="flex gap-2">
                 {isEditing ? (
                   <>
                     <Button
-                      onClick={handleSave}
+                      onClick={() => { }}
                       className="px-3 py-2 text-sm transition-colors"
                     >
                       Save
@@ -186,16 +195,16 @@ export default function SubtopicDetailPage() {
                     </Button>
                   </>
                 ) : (
-                  <Button
+                  <EditButton
                     onClick={handleEdit}
                     className="flex items-center gap-2 px-3 py-2 text-sm transition-colors"
                   >
                     <Edit className="h-4 w-4" />
                     Edit Subtopic
-                  </Button>
+                  </EditButton>
                 )}
               </div>
-            )}
+            </MentorOnly>
           </div>
         </div>
       </div>
@@ -238,31 +247,78 @@ export default function SubtopicDetailPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-primary text-base font-semibold sm:text-lg">
+                  <TestTube className="h-4 w-4 inline mr-2" />
                   Tests
                 </CardTitle>
-                {isMentor && (
-                  <Button
-                    size="sm"
-                    className="flex items-center gap-2 px-2 py-1 text-xs transition-colors sm:text-sm"
-                  >
-                    <Plus className="h-3 w-3" />
-                    <span className="xs:inline hidden">Create Test</span>
-                  </Button>
-                )}
               </div>
             </CardHeader>
             <CardContent>
-              <div className="py-6 text-center sm:py-8">
-                <div className="text-muted-foreground text-xs sm:text-sm">
-                  {isMentor
-                    ? 'No tests created yet. Create one to assess learning!'
-                    : 'No tests available for this subtopic.'}
+              {hasExistingTest ? (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium">{existingTest?.title}</h4>
+                      {existingTest?.description && (
+                        <p className="text-muted-foreground text-sm mt-1">
+                          {existingTest.description}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                        {existingTest?.timeLimit && (
+                          <span>⏱️ {existingTest.timeLimit} minutes</span>
+                        )}
+                        <span>🎯 {existingTest?.passingScore}% to pass</span>
+                        <span>❓ {existingTest?.questions.length} questions</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <MentorOnly>
+                        <EditButton
+                          onClick={() => router.push(`/subtopic/${subtopic._id}/test/${existingTest?._id}/edit`)}
+                          size="sm"
+                        >
+                          Edit Test
+                        </EditButton>
+                      </MentorOnly>
+                      <MenteeOnly>
+                        <Button
+                          size="sm"
+                          onClick={() => router.push(`/test/${existingTest?._id}`)}
+                        >
+                          Take Test
+                        </Button>
+                      </MenteeOnly>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="text-center py-6 sm:py-8">
+                  <MentorOnly>
+                    <div>
+                      <p className="text-muted-foreground text-xs sm:text-sm mb-4">
+                        No tests created yet. Create one to assess learning!
+                      </p>
+                      <CreateButton
+                        onClick={() => router.push(`/subtopic/${subtopic._id}/test/create`)}
+                        size="sm"
+                      >
+                        <Plus className="h-3 w-3 mr-2" />
+                        Create Test
+                      </CreateButton>
+                    </div>
+                  </MentorOnly>
+                  <MenteeOnly>
+                    <p className="text-muted-foreground text-xs sm:text-sm">
+                      No tests available for this subtopic.
+                    </p>
+                  </MenteeOnly>
+                </div>
+              )}
             </CardContent>
           </Card>
           {/* Progress Section (for mentees) */}
-          {!isMentor && (
+          <MenteeOnly>
             <Card className="shadow-sm">
               <CardHeader>
                 <CardTitle className="text-primary text-base font-semibold sm:text-lg">
@@ -283,9 +339,10 @@ export default function SubtopicDetailPage() {
                 </div>
               </CardContent>
             </Card>
-          )}
+          </MenteeOnly>
         </div>
       </div>
+
     </div>
   );
 }

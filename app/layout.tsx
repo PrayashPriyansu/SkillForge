@@ -6,6 +6,7 @@ import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
 import ConvexClientProvider from '@/components/providers/convex-provider';
 import { GlobalStoreProvider } from '@/components/providers/store-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { RoleProvider } from '@/components/providers/role-provider';
 
 import './globals.css';
 
@@ -42,7 +43,11 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ConvexClientProvider>
-              <GlobalStoreProvider>{children}</GlobalStoreProvider>
+              <GlobalStoreProvider>
+                <RoleProvider>
+                  {children}
+                </RoleProvider>
+              </GlobalStoreProvider>
             </ConvexClientProvider>
           </ThemeProvider>
         </body>
